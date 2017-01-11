@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.entity.Person;
 
-public interface PersonDao extends JpaRepository<Person, Long> {
+public interface PersonRepository extends JpaRepository<Person, Long> {
 
 	Collection<Person> findByName(String name);
 

@@ -1,4 +1,4 @@
-package com.example.web;
+package com.example.secutrity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -6,16 +6,16 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.example.dao.UserDao;
-import com.example.entity.User;
+import com.example.dao.UserRepository;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private UserDao userDao;
+	private UserRepository userDao;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -36,13 +36,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		User user = userDao.findAll().get(0);
-		if (user != null)
-			auth.inMemoryAuthentication().withUser(user.getUserName()).password(user.getPassword())
-					.roles(user.getRole());
-		else
-			auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-
+	public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService userDetailsService)
+			throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(new CustomPasswordEncoder());
+		// User user = userDao.findAll().get(0);
+		// if (user != null)
+		// auth.inMemoryAuthentication().withUser(user.getUserName()).password(user.getPassword())
+		// .roles(user.getRole());
+		// else
+		// auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 	}
+
 }

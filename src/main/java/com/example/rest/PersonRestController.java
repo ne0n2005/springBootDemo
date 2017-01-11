@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.dao.PersonDao;
+import com.example.dao.PersonRepository;
 import com.example.entity.Person;
 
 @RestController
 public class PersonRestController {
 
 	@Autowired
-	private PersonDao personDao;
+	private PersonRepository personDao;
 
 	AtomicInteger counter = new AtomicInteger();
 

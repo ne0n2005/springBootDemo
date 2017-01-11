@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
-import com.example.dao.PersonDao;
+import com.example.dao.PersonRepository;
 
 @SpringBootApplication
 @EnableCaching
@@ -19,24 +19,15 @@ public class DemoApplication {
 	}
 
 	@Autowired
-	private PersonDao personDao;
+	private PersonRepository personDao;
 
 	@Bean
 	CommandLineRunner runner() {
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... arg0) throws Exception {
-				// storeSpampleData();
 				personDao.findAll().forEach(System.out::println);
 			}
-
-			// private void storeSpampleData() {
-			// List<String> names =
-			// Arrays.asList("Peter,John,Tobias,Lisa".split(","));
-			// for (String name : names) {
-			// personDao.save(new Person(name));
-			// }
-			// }
 		};
 	}
 }
